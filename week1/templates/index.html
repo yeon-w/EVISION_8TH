@@ -16,9 +16,6 @@
   <form action="{{ url_for('search') }}" method="get">
     <input type="text" name="q" placeholder="검색어 입력" value="{{ q|e }}">
     <button type="submit">검색</button>
-    <!--{% if search_mode %}
-      <a href="{{ url_for('index') }}">전체보기</a>
-    {% endif %} -->
   </form>
 
   <h1>방명록 작성</h1>
