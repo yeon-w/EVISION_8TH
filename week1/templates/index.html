@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>방명록</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 20px; }
+    .flash { padding: 8px; margin: 8px 0; border-radius: 6px; background: #e6ffe6; }
+    .error { background: #ffe6e6; }
+    pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>검색</h1>
+  <form action="{{ url_for('search') }}" method="get">
+    <input type="text" name="q" placeholder="검색어 입력" value="{{ q|e }}">
+    <button type="submit">검색</button>
+    <!--{% if search_mode %}
+      <a href="{{ url_for('index') }}">전체보기</a>
+    {% endif %} -->
+  </form>
+
+  <h1>방명록 작성</h1>
+  <form method="post" action="{{ url_for('write') }}">
+    <p>
+      이름<br>
+      <input type="text" name="name" size="40">
+    </p>
+    <p>
+      메시지<br>
+      <textarea name="message" rows="5" cols="60"></textarea>
+    </p>
+    <p><button type="submit">작성</button></p>
+  </form>
+  
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="flash {{ 'error' if category=='error' else '' }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% if search_mode %}
+    <h2>검색 결과: "{{ q|e }}"</h2>
+  {% else %}
+    <h2>모든 방명록</h2>
+  {% endif %}
+
+  <ul>
+  {% for id, name, message, created_at in messages %}
+    <li>
+      <strong>{{ name }}</strong> ({{ created_at }})<br>
+      <pre>{{ message }}</pre>
+    </li>
+  {% else %}
+    <li>등록된 메시지가 없습니다.</li>
+  {% endfor %}
+  </ul>
+</body>
+</html>
