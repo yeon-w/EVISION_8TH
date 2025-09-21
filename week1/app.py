@@ -11,12 +11,13 @@ app.config["SECRET_KEY"] = SECRET_KEY
 def init_db(): #DB 초기화 함수
     conn = sqlite3.connect(DB_PATH) #DB 연결
     cur = conn.cursor()
-    cur.execute(""" #테이블 생성. 있으면 건너뜀
+    #테이블 생성. 있으면 건너뜀
+    cur.execute(""" 
     CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT, #고유 아이디
-        name TEXT NOT NULL, #작성자 이름
-        message TEXT NOT NULL, #작성한 메시지
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP #작성 시각
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        name TEXT NOT NULL, 
+        message TEXT NOT NULL, 
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP 
     )
     """)
     conn.commit()
