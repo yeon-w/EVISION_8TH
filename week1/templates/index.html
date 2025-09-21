@@ -1,24 +1,24 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko"> <!--한국어로 지정-->
 <head>
   <meta charset="utf-8">
-  <title>방명록</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
+  <title>방명록</title> <!--브라우저 탭 제목-->
+  <meta name="viewport" content="width=device-width,initial-scale=1"> <!--모바일 대응-->
+  <style> <!--css 스타일 정의-->
     body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 20px; }
-    .flash { padding: 8px; margin: 8px 0; border-radius: 6px; background: #e6ffe6; }
+    .flash { padding: 8px; margin: 8px 0; border-radius: 6px; background: #e6ffe6; } 
     .error { background: #ffe6e6; }
     pre { white-space: pre-wrap; }
   </style>
 </head>
-<body>
+<body> <!--검색부분-->
   <h1>검색</h1>
   <form action="{{ url_for('search') }}" method="get">
-    <input type="text" name="q" placeholder="검색어 입력" value="{{ q|e }}">
+    <input type="text" name="q" placeholder="검색어 입력" value="{{ q }}"> <!--검색어 입력칸-->
     <button type="submit">검색</button>
   </form>
 
-  <h1>방명록 작성</h1>
+  <h1>방명록 작성</h1> <!--방명록 작성 영역-->
   <form method="post" action="{{ url_for('write') }}">
     <p>
       이름<br>
@@ -31,28 +31,28 @@
     <p><button type="submit">작성</button></p>
   </form>
   
-
+<!--flask 메시지 표시--> 
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       {% for category, msg in messages %}
-        <div class="flash {{ 'error' if category=='error' else '' }}">{{ msg }}</div>
+        <div class="flash {{ 'error' if category=='error' else '' }}">{{ msg }}</div> <!--에러일 경우-->
       {% endfor %}
     {% endif %}
   {% endwith %}
 
-  {% if search_mode %}
-    <h2>검색 결과: "{{ q|e }}"</h2>
+  {% if search_mode %} <!--검색 결과 여부에 따라 제목 다르게-->
+    <h2>검색 결과: "{{ q }}"</h2>
   {% else %}
     <h2>모든 방명록</h2>
   {% endif %}
 
-  <ul>
+  <ul> <!--메시지 목록 출력-->
   {% for id, name, message, created_at in messages %}
     <li>
       <strong>{{ name }}</strong> ({{ created_at }})<br>
       <pre>{{ message }}</pre>
     </li>
-  {% else %}
+  {% else %} <!--일치하는 메시지가 없을 경우-->
     <li>등록된 메시지가 없습니다.</li>
   {% endfor %}
   </ul>
