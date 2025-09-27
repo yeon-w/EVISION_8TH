@@ -49,8 +49,8 @@
   <ul> <!--메시지 목록 출력-->
   {% for id, name, message, created_at in messages %}
     <li>
-      <strong>{{ name }}</strong> ({{ created_at }})<br>
-      <pre>{{ message }}</pre>
+      <strong>{{ name | safe}}</strong> ({{ created_at }})<br>
+      <pre>{{ message | safe}}</pre>
     </li>
   {% else %} <!--일치하는 메시지가 없을 경우-->
     <li>등록된 메시지가 없습니다.</li>
